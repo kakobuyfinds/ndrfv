@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="index, follow">
+  <title>iTaoBuy spreadsheet | CAFANS Finds &amp; Buying Checklist</title>
+  <meta name="description" content="Browse real CAFANS finds by category, compare reference prices, and export an iTaoBuy spreadsheet shortlist with columns for sizing, QC, and shipping.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="iTaoBuy spreadsheet | CAFANS Finds &amp; Buying Checklist">
+  <meta property="og:description" content="Compare CAFANS listings and build a CSV shortlist for sizing, warehouse QC, and shipping checks.">
+  <meta name="theme-color" content="#142c23">
+  <!-- index.html. 上线后将 canonical 设置为本页正式 URL。当前未提供发布地址，因此尚未向 Google 或 Bing 提交。发布并验证站点后，在 Google Search Console 的 URL 检查中请求编入索引，在 Bing Webmaster Tools 中提交同一 URL。 -->
+  <!-- 竞品调研参考：https://itaobuy-spreadsheet.net/ 提供分类和商品编号搜索；https://chinagrails.com/en/spreadsheet/agent/itaobuy 提供商品筛选、QC 和运费工具。本页采用真实 CAFANS 商品快照、无需登录的 CSV 短名单以及可填写的尺码、QC 和运费字段。商品来源：https://cafans.com/ 的 Featured Product Finds。 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "iTaoBuy spreadsheet | CAFANS Finds & Buying Checklist",
+    "inLanguage": "en",
+    "description": "A searchable selection of CAFANS listings with a downloadable shortlist and a checklist for sizing, quality control and shipping.",
+    "mainEntity": {
+      "@type": "ItemList",
+      "name": "Featured CAFANS listings",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Leather Slides","url":"https://cafans.com/goods-158791.html"},
+        {"@type":"ListItem","position":2,"name":"Platform Slides","url":"https://cafans.com/goods-158790.html"},
+        {"@type":"ListItem","position":3,"name":"Sweatshirt","url":"https://cafans.com/goods-158792.html"},
+        {"@type":"ListItem","position":4,"name":"Thug Club - Rock Hoodie","url":"https://cafans.com/goods-158280.html"},
+        {"@type":"ListItem","position":5,"name":"Unisex Embroidered Oversized T-Shirt","url":"https://cafans.com/goods-158200.html"},
+        {"@type":"ListItem","position":6,"name":"Unisex T-Shirt","url":"https://cafans.com/goods-158110.html"}
+      ]
+    }
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #182b23;
+      --muted: #485950;
+      --paper: #f7f5ed;
+      --white: #fffdf7;
+      --line: #cdd6cc;
+      --green: #142c23;
+      --lime: #e0f299;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 1rem/1.6 "Inter", system-ui, sans-serif; }
+    a { color: inherit; text-underline-offset: .2em; }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 3px solid #a85a0f; outline-offset: 4px; }
+    [hidden] { display: none !important; }
+    .wrap { width: min(1100px, calc(100% - 2rem)); margin-inline: auto; }
+    .hero { background: var(--green); color: var(--white); text-align: center; padding: clamp(3rem, 10vw, 7rem) 0; }
+    h1, h2 { font-family: "Instrument Serif", Georgia, serif; line-height: 1.08; letter-spacing: -.035em; }
+    h1 { margin: 0; font-size: clamp(2.8rem, 9vw, 6.6rem); }
+    h2 { margin: 0 0 .75rem; font-size: clamp(2rem, 5vw, 3.2rem); }
+    .hero p { max-width: 37rem; margin: 1.25rem auto; color: #e0ebdf; }
+    .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .75rem; margin-top: 1.75rem; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: .65rem 1.15rem; border: 1px solid transparent; border-radius: 999px; font-weight: 700; text-decoration: none; }
+    .primary { background: var(--lime); color: var(--green); }
+    .secondary { border-color: #a2b7a7; color: var(--white); }
+    .export { background: var(--green); color: var(--white); }
+    .export:disabled { opacity: .55; cursor: default; }
+    section { padding-block: clamp(2rem, 6vw, 4.25rem); }
+    .intro { max-width: 44rem; margin: 0 auto 1.6rem; text-align: center; }
+    .muted { color: var(--muted); }
+    .categories { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-bottom: 1.4rem; }
+    .categories a { border: 1px solid var(--line); border-radius: 999px; background: var(--white); padding: .4rem .85rem; }
+    .filters { display: grid; grid-template-columns: 2fr 1fr 1fr auto; align-items: end; gap: .75rem; }
+    .filters label { display: grid; gap: .25rem; font-weight: 700; }
+    .filters input, .filters select {
+      min-width: 0; width: 100%; min-height: 44px; padding: .45rem .65rem;
+      border: 1px solid #838f84; border-radius: .5rem; background: var(--white); color: var(--ink);
+    }
+    .grid { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+    .card { display: flex; flex-direction: column; gap: .6rem; padding: 1.15rem; border: 1px solid var(--line); border-radius: .8rem; background: var(--white); }
+    .card h3, .card p { margin: 0; }
+    .card h3 { font-size: 1.17rem; line-height: 1.3; }
+    .card .meta { font-size: .85rem; color: var(--muted); }
+    .price { font-weight: 750; font-variant-numeric: tabular-nums; }
+    .save { display: flex; align-items: center; gap: .5rem; min-height: 44px; margin-top: auto; cursor: pointer; }
+    .save input { accent-color: var(--green); width: 1.1rem; height: 1.1rem; }
+    .guide { border-top: 1px solid var(--line); }
+    .checks { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; padding: 0; list-style: none; }
+    .checks li { padding: 1.15rem; border-top: 3px solid #52755e; background: var(--white); }
+    .checks h3 { margin: 0 0 .45rem; font-size: 1rem; }
+    .checks p { margin: 0; }
+    details { margin-inline: auto; max-width: 46rem; border-bottom: 1px solid var(--line); padding: .9rem 0; }
+    summary { cursor: pointer; font-weight: 700; }
+    details p { margin: .5rem 0 0; }
+    footer { border-top: 1px solid var(--line); text-align: center; padding: 1.5rem 0; color: var(--muted); }
+    @media (max-width: 800px) {
+      .filters, .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 520px) {
+      .checks, .filters { grid-template-columns: 1fr; }
+      .card { padding: .85rem; }
+    }
+  </style>
+<link rel="canonical" href="https://kakobuyfinds.github.io/ndrfv/">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <h1>iTaoBuy spreadsheet</h1>
+      <p>Browse CAFANS finds, compare reference prices, and build a shortlist for sizing, warehouse QC, and shipping checks.</p>
+      <div class="actions">
+        <a class="button primary" href="https://cafans.com">iTaoBuy spreadsheet</a>
+        <a class="button secondary" href="https://cafans.com">Buy it now</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section aria-labelledby="catalog-heading">
+      <div class="intro">
+        <h2 id="catalog-heading">CAFANS product directory</h2>
+        <p class="muted">Selected listings from the CAFANS homepage. Prices are USD estimates from the catalog snapshot. Open a listing to see its photos and check current options and price.</p>
+      </div>
+      <nav class="categories" aria-label="Browse full CAFANS categories">
+        <a href="https://cafans.com/category-911-Shoes.html">Shoes</a>
+        <a href="https://cafans.com/category-912-Hoodies%2FSweaters.html">Hoodies &amp; sweaters</a>
+        <a href="https://cafans.com/category-913-T-Shirts.html">T-shirts</a>
+        <a href="https://cafans.com/category-914-Jackets.html">Jackets</a>
+      </nav>
+
+      <div class="filters" id="filters" hidden>
+        <label>Product name or CAFANS ID
+          <input id="query" type="search" placeholder="Search featured listings" autocomplete="off">
+        </label>
+        <label>Category
+          <select id="category">
+            <option value="">All featured categories</option>
+            <option value="Shoes">Shoes</option>
+            <option value="Hoodies &amp; sweaters">Hoodies &amp; sweaters</option>
+            <option value="T-shirts">T-shirts</option>
+          </select>
+        </label>
+        <label>Sort
+          <select id="sort">
+            <option value="">Featured</option>
+            <option value="low">Lowest price</option>
+            <option value="high">Highest price</option>
+          </select>
+        </label>
+        <button class="button export" id="export" type="button" disabled>Download shortlist CSV</button>
+      </div>
+      <p class="muted" id="catalog-status" role="status" hidden></p>
+
+      <ul class="grid" id="products">
+        <li class="card" data-category="Shoes" data-id="158791" data-price="62.36">
+          <p class="meta">Shoes · CAFANS #158791</p>
+          <h3><a class="listing" href="https://cafans.com/goods-158791.html">Leather Slides</a></h3>
+          <p class="price">$62.36 USD</p>
+          <label class="save" hidden><input type="checkbox" aria-label="Shortlist Leather Slides"> Shortlist</label>
+        </li>
+        <li class="card" data-category="Shoes" data-id="158790" data-price="46.67">
+          <p class="meta">Shoes · CAFANS #158790</p>
+          <h3><a class="listing" href="https://cafans.com/goods-158790.html">Platform Slides</a></h3>
+          <p class="price">$46.67 USD</p>
+          <label class="save" hidden><input type="checkbox" aria-label="Shortlist Platform Slides"> Shortlist</label>
+        </li>
+        <li class="card" data-category="Hoodies &amp; sweaters" data-id="158792" data-price="27.50">
+          <p class="meta">Hoodies &amp; sweaters · CAFANS #158792</p>
+          <h3><a class="listing" href="https://cafans.com/goods-158792.html">Sweatshirt</a></h3>
+          <p class="price">$27.50 USD</p>
+          <label class="save" hidden><input type="checkbox" aria-label="Shortlist Sweatshirt"> Shortlist</label>
+        </li>
+        <li class="card" data-category="Hoodies &amp; sweaters" data-id="158280" data-price="37.22">
+          <p class="meta">Hoodies &amp; sweaters · CAFANS #158280</p>
+          <h3><a class="listing" href="https://cafans.com/goods-158280.html">Thug Club - Rock Hoodie</a></h3>
+          <p class="price">$37.22 USD</p>
+          <label class="save" hidden><input type="checkbox" aria-label="Shortlist Thug Club Rock Hoodie"> Shortlist</label>
+        </li>
+        <li class="card" data-category="T-shirts" data-id="158200" data-price="32.64">
+          <p class="meta">T-shirts · CAFANS #158200</p>
+          <h3><a class="listing" href="https://cafans.com/goods-158200.html">Unisex Embroidered Oversized T-Shirt</a></h3>
+          <p class="price">$32.64 USD</p>
+          <label class="save" hidden><input type="checkbox" aria-label="Shortlist Unisex Embroidered Oversized T-Shirt"> Shortlist</label>
+        </li>
+        <li class="card" data-category="T-shirts" data-id="158110" data-price="29.72">
+          <p class="meta">T-shirts · CAFANS #158110</p>
+          <h3><a class="listing" href="https://cafans.com/goods-158110.html">Unisex T-Shirt</a></h3>
+          <p class="price">$29.72 USD</p>
+          <label class="save" hidden><input type="checkbox" aria-label="Shortlist Unisex T-Shirt"> Shortlist</label>
+        </li>
+      </ul>
+    </section>
+
+    <section class="guide" aria-labelledby="guide-heading">
+      <div class="intro">
+        <h2 id="guide-heading">How to use the iTaoBuy spreadsheet</h2>
+        <p>Select products and download your shortlist. Use one row per size and color combination, then fill in the missing details as you check the listing and contact your shopping agent.</p>
+      </div>
+      <ol class="checks">
+        <li><h3>1. Confirm the source listing and size</h3><p>Open the CAFANS product page and copy the original seller URL when available. Ask your agent whether it accepts that URL. Record the exact variation and compare the seller’s measurements with an item you already own.</p></li>
+        <li><h3>2. Check warehouse QC photos</h3><p>If your agent provides photos after warehouse arrival, compare the size label, color, and measurements against your order. Flag any difference and confirm the return window before approving shipment.</p></li>
+        <li><h3>3. Compare total costs</h3><p>Record the item price, domestic delivery, agent fees, and international shipping in the same currency. Compare quotes for the same destination and ask whether the carrier bills by actual or volumetric weight.</p></li>
+      </ol>
+    </section>
+
+    <section class="guide" aria-labelledby="faq-heading">
+      <div class="intro"><h2 id="faq-heading">Frequently asked questions</h2></div>
+      <details>
+        <summary>Where does the iTaoBuy spreadsheet data come from?</summary>
+        <p>The featured rows come from the CAFANS catalog. The linked CAFANS pages are the place to check current product details and seller links.</p>
+      </details>
+      <details>
+        <summary>Can I paste a CAFANS product ID into my agent’s order form?</summary>
+        <p>The numbers shown here identify CAFANS listings. Open the product page, locate the original seller link if available, and check which link format your agent accepts.</p>
+      </details>
+      <details>
+        <summary>What does the CSV include?</summary>
+        <p>It includes the names, categories, CAFANS IDs, reference prices, and CAFANS links you selected. It also has blank columns for the seller URL, size, color, QC notes, and shipping quote. You can open it in Excel or import it into Google Sheets.</p>
+      </details>
+      <details>
+        <summary>Does the listed price include international shipping?</summary>
+        <p>The reference price shown is for the product. Use a destination-specific quote from your agent to estimate shipping and check any additional fees separately.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Independent shopping guide · Product listings sourced from <a href="https://cafans.com">CAFANS</a></div>
+  </footer>
+
+  <script>
+    (() => {
+      const list = document.getElementById('products');
+      const cards = [...list.children];
+      const query = document.getElementById('query');
+      const category = document.getElementById('category');
+      const sort = document.getElementById('sort');
+      const status = document.getElementById('catalog-status');
+      const exportButton = document.getElementById('export');
+
+      function selectedCards() {
+        return cards.filter(card => card.querySelector('input').checked);
+      }
+
+      function updateCatalog() {
+        const term = query.value.trim().toLowerCase();
+        const ordered = [...cards];
+        if (sort.value) {
+          const direction = sort.value === 'low' ? 1 : -1;
+          ordered.sort((a, b) => direction * (Number(a.dataset.price) - Number(b.dataset.price)));
+        }
+
+        let visible = 0;
+        for (const card of ordered) {
+          const name = card.querySelector('.listing').textContent.toLowerCase();
+          const matchesText = name.includes(term) || card.dataset.id.includes(term);
+          const matchesCategory = !category.value || card.dataset.category === category.value;
+          card.hidden = !(matchesText && matchesCategory);
+          if (!card.hidden) visible += 1;
+          if (sort.contains(document.activeElement) || document.activeElement === sort) list.append(card);
+        }
+
+        const selected = selectedCards().length;
+        exportButton.disabled = selected === 0;
+        const result = visible ? `${visible} of ${cards.length} listings` : 'No matching listings';
+        status.textContent = `${result} · ${selected} shortlisted`;
+      }
+
+      function csvCell(value) {
+        return '"' + String(value).replace(/"/g, '""') + '"';
+      }
+
+      exportButton.addEventListener('click', () => {
+        const selected = selectedCards();
+        if (!selected.length) return;
+
+        const rows = [['Product', 'Category', 'CAFANS ID', 'Reference price (USD)', 'CAFANS listing', 'Seller URL', 'Size', 'Color', 'QC notes', 'Shipping quote and currency']];
+        for (const card of selected) {
+          const listing = card.querySelector('.listing');
+          rows.push([listing.textContent, card.dataset.category, card.dataset.id, card.dataset.price,
+            listing.href, '', '', '', '', '']);
+        }
+
+        const csv = '\uFEFF' + rows.map(row => row.map(csvCell).join(',')).join('\r\n') + '\r\n';
+        const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'itaobuy-spreadsheet-shortlist.csv';
+        document.body.append(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      });
+
+      query.addEventListener('input', updateCatalog);
+      category.addEventListener('change', updateCatalog);
+      sort.addEventListener('change', () => {
+        const ordered = [...cards];
+        if (sort.value) {
+          const direction = sort.value === 'low' ? 1 : -1;
+          ordered.sort((a, b) => direction * (Number(a.dataset.price) - Number(b.dataset.price)));
+        }
+        list.append(...ordered);
+        updateCatalog();
+      });
+      list.addEventListener('change', updateCatalog);
+      document.getElementById('filters').hidden = false;
+      status.hidden = false;
+      for (const label of list.querySelectorAll('.save')) label.hidden = false;
+      updateCatalog();
+    })();
+  </script>
+</body>
+</html>
